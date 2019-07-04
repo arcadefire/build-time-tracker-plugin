@@ -7,7 +7,11 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
 
     private HttpClient httpClient
 
-    NetworkReporter(Map<String, String> options, Logger logger, HttpClient httpClient) {
+    NetworkReporter(
+            Map<String, String> options,
+            Logger logger,
+            HttpClient httpClient
+    ) {
         super(options, logger)
         this.httpClient = httpClient
     }
@@ -28,6 +32,9 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
             )
         }
 
+        def sysInfo = new SysInfo()
+        def trueTimeProvider = new TrueTimeProvider()
+
         try {
             httpClient.openConnection(urlString)
 
@@ -39,7 +46,11 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
                         success: it.success,
                         did_work: it.didWork,
                         skipped: it.skipped,
-                        ms: it.ms
+                        ms: it.ms,
+                        date: trueTimeProvider.getCurrentDate(),
+                        cpu: sysInfo.getCPUIdentifier(),
+                        memory: sysInfo.getMaxMemory(),
+                        os: sysInfo.getOSIdentifier()
                 ]
             }
 
