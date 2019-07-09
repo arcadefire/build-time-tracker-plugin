@@ -8,7 +8,6 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
     private HttpClient httpClient
 
     private def isJenkinsJob
-    private def version
 
     NetworkReporter(
             Map<String, String> options,
@@ -18,7 +17,6 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
         super(options, logger)
         this.httpClient = httpClient
         this.isJenkinsJob = getOption("is_jenkins_job", false)
-        this.version = getOption("version", 1)
     }
 
     NetworkReporter(Map<String, String> options, Logger logger) {
@@ -62,7 +60,7 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
             def data = [
                     success: timings.every { it.success },
                     count: timings.size(),
-                    version: version,
+                    version: plugInVersion,
                     is_jenkins_job: isJenkinsJob,
                     measurements: measurements
             ]

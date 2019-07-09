@@ -37,6 +37,7 @@ class NetworkReporterTest {
                         mockLogger.proxyInstance(),
                         testHttpClient
                 )
+                reporter.plugInVersion = 2
 
                 reporter.run([
                         new Timing(100, "task1", true, false, true),

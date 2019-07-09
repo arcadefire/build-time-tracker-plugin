@@ -5,12 +5,15 @@ import org.gradle.BuildResult
 import org.gradle.api.logging.Logger
 
 abstract class AbstractBuildTimeTrackerReporter {
+
     Map<String, String> options
     Logger logger
+    def plugInVersion
 
-    AbstractBuildTimeTrackerReporter(Map<String, String> options, Logger logger) {
+    AbstractBuildTimeTrackerReporter(Map<String, String> options, Logger logger, int plugInVersion = 0) {
         this.options = options
         this.logger = logger
+        this.plugInVersion = plugInVersion
     }
 
     abstract run(List<Timing> timings)
@@ -20,10 +23,6 @@ abstract class AbstractBuildTimeTrackerReporter {
     }
 
     boolean getOption(String name, boolean defaultVal) {
-        options[name] == null ? defaultVal : options[name]
-    }
-
-    int getOption(String name, int defaultVal) {
         options[name] == null ? defaultVal : options[name]
     }
 
