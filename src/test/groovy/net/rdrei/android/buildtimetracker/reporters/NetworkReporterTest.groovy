@@ -33,10 +33,11 @@ class NetworkReporterTest {
         mockTimeProvider.use {
             mockSysInfo.use {
                 NetworkReporter reporter = new NetworkReporter(
-                        [url: "www.some-url.com"],
+                        [url: "www.some-url.com", is_jenkins_job: true, version: 2],
                         mockLogger.proxyInstance(),
                         testHttpClient
                 )
+                reporter.plugInVersion = 2
 
                 reporter.run([
                         new Timing(100, "task1", true, false, true),
@@ -44,9 +45,11 @@ class NetworkReporterTest {
                 ])
 
                 def expectedData = [
-                        success     : false,
-                        count       : 2,
-                        measurements: [
+                        success       : false,
+                        count         : 2,
+                        version       : 2,
+                        is_jenkins_job: true,
+                        measurements  : [
                                 [
                                         order   : 0,
                                         task    : "task1",
