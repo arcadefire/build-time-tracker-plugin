@@ -59,11 +59,11 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
             }
 
             def data = [
-                    success: timings.every { it.success },
-                    count: timings.size(),
-                    version: plugInVersion,
-                    is_jenkins_job: isJenkinsJob,
-                    measurements: measurements
+                success: timings.every { it.success },
+                count: timings.size(),
+                version: plugInVersion,
+                is_jenkins_job: isJenkinsJob,
+                measurements: measurements
             ]
 
             httpClient.send(data)

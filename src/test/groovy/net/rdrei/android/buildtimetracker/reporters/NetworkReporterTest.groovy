@@ -33,9 +33,10 @@ class NetworkReporterTest {
         mockTimeProvider.use {
             mockSysInfo.use {
                 NetworkReporter reporter = new NetworkReporter(
-                        [url: "www.some-url.com", is_jenkins_job: true, version: 2],
+                        [url: "www.some-url.com", is_jenkins_job: true],
                         mockLogger.proxyInstance(),
-                        testHttpClient
+                        testHttpClient,
+                        "1.2.3"
                 )
                 reporter.plugInVersion = 2
 
@@ -86,7 +87,7 @@ class NetworkReporterTest {
     @Test
     void testThrowsErrorWhenWithNoUrl() {
         def mockLogger = new MockFor(Logger)
-        NetworkReporter reporter = new NetworkReporter([:], mockLogger.proxyInstance())
+        NetworkReporter reporter = new NetworkReporter([:], mockLogger.proxyInstance(), "1.2.3")
 
         def error = null
         try {

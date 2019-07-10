@@ -8,7 +8,7 @@ import org.ocpsoft.prettytime.PrettyTime
 class CSVSummaryReporter extends AbstractBuildTimeTrackerReporter {
     DateUtils dateUtils
 
-    CSVSummaryReporter(Map<String, String> options, Logger logger, String plugInVersion) {
+    CSVSummaryReporter(Map<String, String> options, Logger logger, String plugInVersion = null) {
         super(options, logger, plugInVersion)
         dateUtils = new DateUtils()
     }

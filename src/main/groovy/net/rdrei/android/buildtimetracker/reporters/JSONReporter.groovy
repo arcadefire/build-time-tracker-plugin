@@ -8,8 +8,9 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class JSONReporter extends AbstractBuildTimeTrackerReporter {
-    JSONReporter(Map<String, String> options, Logger logger) {
-        super(options, logger)
+
+    JSONReporter(Map<String, String> options, Logger logger, String plugInVersion = null) {
+        super(options, logger, plugInVersion)
     }
 
     @Override
