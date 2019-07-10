@@ -22,6 +22,7 @@ class BuildTimeTrackerPlugin implements Plugin<Project> {
     Logger logger
 
     NamedDomainObjectCollection<ReporterExtension> reporterExtensions
+    def projectVersion
 
     @Override
     void apply(Project project) {
@@ -29,12 +30,13 @@ class BuildTimeTrackerPlugin implements Plugin<Project> {
         project.extensions.create("buildtimetracker", BuildTimeTrackerExtension)
         reporterExtensions = project.buildtimetracker.extensions.reporters = project.container(ReporterExtension)
         project.gradle.addBuildListener(new TimingRecorder(this))
+        projectVersion = project.version
     }
 
     List<AbstractBuildTimeTrackerReporter> getReporters() {
         reporterExtensions.collect { ext ->
             if (REPORTERS.containsKey(ext.name)) {
-                return REPORTERS.get(ext.name).newInstance(ext.options, logger, project['version'])
+                return REPORTERS.get(ext.name).newInstance(ext.options, logger, projectVersion)
             }
         }.findAll { ext -> ext != null }
     }

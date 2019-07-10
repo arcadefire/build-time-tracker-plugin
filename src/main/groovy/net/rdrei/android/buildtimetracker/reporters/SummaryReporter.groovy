@@ -13,8 +13,8 @@ class SummaryReporter extends AbstractBuildTimeTrackerReporter {
     boolean successOutput
     boolean shortenTaskNames
 
-    SummaryReporter(Map<String, String> options, Logger logger) {
-        super(options, logger)
+    SummaryReporter(Map<String, String> options, Logger logger, String plugInVersion) {
+        super(options, logger, plugInVersion)
 
         barStyle = getOption("barstyle", "unicode")
         successOutput = Boolean.parseBoolean(getOption("successOutput", "true"))

@@ -8,8 +8,9 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class CSVReporter extends AbstractBuildTimeTrackerReporter {
-    CSVReporter(Map<String, String> options, Logger logger) {
-        super(options, logger)
+
+    CSVReporter(Map<String, String> options, Logger logger, String plugInVersion) {
+        super(options, logger, plugInVersion)
     }
 
     @Override
