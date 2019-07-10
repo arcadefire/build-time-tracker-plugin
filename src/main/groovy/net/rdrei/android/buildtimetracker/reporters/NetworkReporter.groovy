@@ -12,15 +12,16 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
     NetworkReporter(
             Map<String, String> options,
             Logger logger,
-            HttpClient httpClient
+            HttpClient httpClient,
+            String plugInVersion
     ) {
-        super(options, logger)
+        super(options, logger, plugInVersion)
         this.httpClient = httpClient
         this.isJenkinsJob = getOption("is_jenkins_job", false)
     }
 
-    NetworkReporter(Map<String, String> options, Logger logger) {
-        this(options, logger, new DefaultHttpClient())
+    NetworkReporter(Map<String, String> options, Logger logger, int plugInVersion) {
+        this(options, logger, new DefaultHttpClient(), plugInVersion)
     }
 
     @Override

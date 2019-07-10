@@ -10,7 +10,7 @@ abstract class AbstractBuildTimeTrackerReporter {
     Logger logger
     def plugInVersion
 
-    AbstractBuildTimeTrackerReporter(Map<String, String> options, Logger logger, int plugInVersion = 0) {
+    AbstractBuildTimeTrackerReporter(Map<String, String> options, Logger logger, String plugInVersion = null) {
         this.options = options
         this.logger = logger
         this.plugInVersion = plugInVersion
