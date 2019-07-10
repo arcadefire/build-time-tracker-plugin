@@ -67,7 +67,7 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
             ]
 
             httpClient.send(data)
-            logger.lifecycle("Server's response: ${httpClient.read()}")
+            logger.lifecycle("BuildTimeTracker: Your build's time has been sent to remote.")
             httpClient.closeConnection()
 
         } catch (Exception exception) {
