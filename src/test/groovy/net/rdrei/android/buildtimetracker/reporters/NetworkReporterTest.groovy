@@ -18,7 +18,7 @@ class NetworkReporterTest {
     @Test
     void writeJsonToOutStream() {
         def mockLogger = new MockFor(Logger)
-        mockLogger.demand.lifecycle(1) {}
+        mockLogger.demand.lifecycle(2) {}
 
         def mockSysInfo = new StubFor(SysInfo)
         mockSysInfo.demand.getCPUIdentifier(2..2) { CPU_ID }

@@ -42,6 +42,8 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
         try {
             httpClient.openConnection(urlString)
 
+            logger.lifecycle("BuildTimeTracker: opening connection to " + urlString)
+
             def measurements = []
             timings.eachWithIndex { it, index ->
                 measurements << [
@@ -67,11 +69,11 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
             ]
 
             httpClient.send(data)
-            logger.lifecycle("BuildTimeTracker: Your build's time has been sent to remote.")
-            httpClient.closeConnection()
-
+            logger.lifecycle("BuildTimeTracker: Your build time stats has been sent.")
         } catch (Exception exception) {
             logger.lifecycle("There was an exception... $exception")
+        } finally {
+            httpClient.closeConnection()
         }
     }
 }

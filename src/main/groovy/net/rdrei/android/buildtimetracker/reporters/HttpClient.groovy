@@ -30,8 +30,10 @@ class DefaultHttpClient implements HttpClient {
 
     @Override
     def send(Map<String, Object> data) {
-        writer.write(new JsonBuilder(data).toString())
+        def json = new JsonBuilder(data).toString()
+        writer.write(json)
         writer.close()
+        return json
     }
 
     @Override
@@ -52,6 +54,8 @@ class DefaultHttpClient implements HttpClient {
 
     @Override
     def closeConnection() {
+        def message = connection.getResponseMessage()
         connection.disconnect()
+        return message
     }
 }
