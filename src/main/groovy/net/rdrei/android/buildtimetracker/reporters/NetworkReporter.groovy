@@ -56,7 +56,8 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
                         date: trueTimeProvider.getCurrentDate(),
                         cpu: sysInfo.getCPUIdentifier(),
                         memory: sysInfo.getMaxMemory(),
-                        os: sysInfo.getOSIdentifier()
+                        os: sysInfo.getOSIdentifier(),
+                        is_jenkins_job: isJenkinsJob
                 ]
             }
 

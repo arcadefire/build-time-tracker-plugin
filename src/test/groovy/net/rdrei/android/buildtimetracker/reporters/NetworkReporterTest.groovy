@@ -33,7 +33,7 @@ class NetworkReporterTest {
         mockTimeProvider.use {
             mockSysInfo.use {
                 NetworkReporter reporter = new NetworkReporter(
-                        [url: "www.some-url.com", is_jenkins_job: true],
+                        [url: "www.some-url.com", is_jenkins_job: "true"],
                         mockLogger.proxyInstance(),
                         testHttpClient,
                         "1.2.3"
@@ -61,7 +61,8 @@ class NetworkReporterTest {
                                         date    : CURRENT_DATE,
                                         cpu     : CPU_ID,
                                         memory  : 1,
-                                        os      : OS
+                                        os      : OS,
+                                        is_jenkins_job : true
 
                                 ],
                                 [
@@ -74,7 +75,8 @@ class NetworkReporterTest {
                                         date    : CURRENT_DATE,
                                         cpu     : CPU_ID,
                                         memory  : 1,
-                                        os      : OS
+                                        os      : OS,
+                                        is_jenkins_job : true
                                 ]
                         ],
                 ]
@@ -99,6 +101,77 @@ class NetworkReporterTest {
         assertNotNull error
         assertEquals ReporterConfigurationError.ErrorType.REQUIRED, error.errorType
         assertEquals "url", error.optionName
+    }
+
+    @Test
+    void testIsJenkinsJobSetToFalse() {
+        def mockLogger = new MockFor(Logger)
+        mockLogger.demand.lifecycle(2) {}
+
+        def mockSysInfo = new StubFor(SysInfo)
+        mockSysInfo.demand.getCPUIdentifier(2..2) { CPU_ID }
+        mockSysInfo.demand.getMaxMemory(2..2) { 1 }
+        mockSysInfo.demand.getOSIdentifier(2..2) { OS }
+
+        def mockTimeProvider = new MockFor(TrueTimeProvider)
+        mockTimeProvider.demand.getCurrentDate(2..2) { CURRENT_DATE }
+
+        def testHttpClient = new TestHttpClient()
+
+        mockTimeProvider.use {
+            mockSysInfo.use {
+                NetworkReporter reporter = new NetworkReporter(
+                        [url: "www.some-url.com", is_jenkins_job: "false"],
+                        mockLogger.proxyInstance(),
+                        testHttpClient,
+                        "1.2.3"
+                )
+                reporter.plugInVersion = 2
+
+                reporter.run([
+                        new Timing(100, "task1", true, false, true),
+                        new Timing(200, "task2", false, true, false)
+                ])
+
+                def expectedData = [
+                        success       : false,
+                        count         : 2,
+                        version       : 2,
+                        is_jenkins_job: false,
+                        measurements  : [
+                                [
+                                        order   : 0,
+                                        task    : "task1",
+                                        success : true,
+                                        did_work: false,
+                                        skipped : true,
+                                        ms      : 100,
+                                        date    : CURRENT_DATE,
+                                        cpu     : CPU_ID,
+                                        memory  : 1,
+                                        os      : OS,
+                                        is_jenkins_job : false
+
+                                ],
+                                [
+                                        order   : 1,
+                                        task    : "task2",
+                                        success : false,
+                                        did_work: true,
+                                        skipped : false,
+                                        ms      : 200,
+                                        date    : CURRENT_DATE,
+                                        cpu     : CPU_ID,
+                                        memory  : 1,
+                                        os      : OS,
+                                        is_jenkins_job : false
+                                ]
+                        ],
+                ]
+
+                assert testHttpClient.data == expectedData
+            }
+        }
     }
 }
 

@@ -23,7 +23,7 @@ abstract class AbstractBuildTimeTrackerReporter {
     }
 
     boolean getOption(String name, boolean defaultVal) {
-        options[name] == null ? defaultVal : options[name]
+        options[name] == null ? defaultVal : options[name].toBoolean()
     }
 
     void onBuildResult(BuildResult result) {}
