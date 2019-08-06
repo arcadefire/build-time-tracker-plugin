@@ -45,6 +45,12 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
             logger.lifecycle("BuildTimeTracker: opening connection to " + urlString)
 
             def measurements = []
+            // This should be moved from "measurement" level to the top level
+            // Do it when backend is ready for a new format
+            def time = trueTimeProvider.getCurrentDate()
+            def cpu = sysInfo.getCPUIdentifier()
+            def memory = sysInfo.getMaxMemory()
+            def os = sysInfo.getOSIdentifier()
             timings.eachWithIndex { it, index ->
                 measurements << [
                         order: index,
@@ -53,10 +59,10 @@ class NetworkReporter extends AbstractBuildTimeTrackerReporter {
                         did_work: it.didWork,
                         skipped: it.skipped,
                         ms: it.ms,
-                        date: trueTimeProvider.getCurrentDate(),
-                        cpu: sysInfo.getCPUIdentifier(),
-                        memory: sysInfo.getMaxMemory(),
-                        os: sysInfo.getOSIdentifier(),
+                        date: time,
+                        cpu: cpu,
+                        memory: memory,
+                        os: os,
                         is_jenkins_job: isJenkinsJob
                 ]
             }
